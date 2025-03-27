@@ -1,16 +1,15 @@
+# Day 15 - Coffee Machine Simulation
 
-# Day 15 Coffee Machine
-#Given:
-##################################################################
+# Menu definition: drinks available, their ingredients, and cost
 MENU = {
-    "espresso":{
+    "espresso": {
         "ingredients": {
             "water": 50,
             "coffee": 18,
         },
-        "cost":1.5,
+        "cost": 1.5,
     },
-    "latte":{
+    "latte": {
         "ingredients": {
             "water": 200,
             "milk": 150,
@@ -18,7 +17,7 @@ MENU = {
         },
         "cost": 2.5,
     },
-     "cappuccino":{
+    "cappuccino": {
         "ingredients": {
             "water": 250,
             "milk": 100,
@@ -26,86 +25,91 @@ MENU = {
         },
         "cost": 3.0,
     }
-
 }
 
+# Initial available resources in the machine
 resources = {
     "water": 500,
     "milk": 500,
     "coffee": 500
 }
-##################################################################
-#The objective is to create logic for a coffee machine using conditionals - refer Coffee+Machine+Program+Requirements.pdf
 
+# Total money collected from sales
 money = 0
+# Control flag to keep the machine running
 switch = True
 
+# Main loop to keep asking users for input
 while switch:
-
     user_input = input("What would you like? (espresso/latte/cappuccino): ")
 
+    # ESPRESSO LOGIC
     if user_input == "espresso":
-
+        # Check if water and coffee are available at all
         if resources["water"] > 0 and resources["coffee"] > 0:
-            #Recipe
+            # Define required ingredients
             water = 50
             coffee = 18
 
+            # Check if enough resources are available
             if resources["water"] >= water and resources["coffee"] >= coffee:
-
                 print("That will be $1.50. Please insert coins.")
                 cost = 1.5
 
+                # Ask for coin input
                 user_input_quarters = input("How many quarters?: ")
                 user_input_dimes = input("How many dimes?: ")
                 user_input_nickles = input("How many nickles?: ")
                 user_input_pennies = input("How many pennies?: ")
 
-                total_money_input = (int(user_input_quarters) * 0.25) + (int(user_input_dimes) * 0.1) + (
-                            int(user_input_nickles) + 0.05) + (int(user_input_pennies) * 0.01)
+                # Calculate total money inserted
+                total_money_input = (
+                    int(user_input_quarters) * 0.25 +
+                    int(user_input_dimes) * 0.1 +
+                    int(user_input_nickles) * 0.05 +
+                    int(user_input_pennies) * 0.01
+                )
 
+                # Not enough money
                 if total_money_input < cost:
-                    # Finance
-                    print(
-                        f"You input ${round(total_money_input, 2)}. There is a deficit of ${round(cost - total_money_input, 2)}. Here is the money your money back: ${round(total_money_input, 2)} - Please input at least ${round(cost, 2)}.")
+                    print(f"You input ${round(total_money_input, 2)}. "
+                          f"There is a deficit of ${round(cost - total_money_input, 2)}. "
+                          f"Here is your money back.")
 
-                elif cost == total_money_input:
-                    # Finance
+                # Exact amount
+                elif total_money_input == cost:
                     money += total_money_input
-                    print(f"Thank you for inputting the exact amount! Enjoy your drink!")
-                    # Resource depletion for making the drink
+                    print("Thank you for inputting the exact amount! Enjoy your drink!")
                     resources["water"] -= water
                     resources["coffee"] -= coffee
 
+                # More than needed: give change
                 elif total_money_input > cost:
-                    # Finance
                     change = total_money_input - cost
                     money += cost
-                    print(f"Thank you for your order! You entered: ${round(total_money_input,2)}. Here is your change: ${round(change, 2)}! Enjoy your drink!")
-                    # Resource depletion for making the drink
+                    print(f"Thank you for your order! You entered: ${round(total_money_input,2)}. "
+                          f"Here is your change: ${round(change, 2)}! Enjoy your drink!")
                     resources["water"] -= water
                     resources["coffee"] -= coffee
 
             else:
-                print(f"Not enough resources to make this drink: {resources}")
-
-                if resources["water"] <= water:
+                # Not enough specific resources
+                print("Not enough resources to make this drink.")
+                if resources["water"] < water:
                     print("There is not enough water.")
-
-                elif resources["coffee"] <= coffee:
+                elif resources["coffee"] < coffee:
                     print("There is not enough coffee.")
         else:
-            print(f"Not enough resources to make this drink: {resources}")
+            print("Not enough resources to make this drink.")
 
+    # LATTE LOGIC
     elif user_input == "latte":
         if resources["water"] > 0 and resources["coffee"] > 0 and resources["milk"] > 0:
-            # Recipe
             water = 200
             coffee = 24
             milk = 150
 
             if resources["water"] >= water and resources["coffee"] >= coffee and resources["milk"] >= milk:
-
                 print("That will be $2.50. Please insert coins.")
                 cost = 2.5
 
@@ -114,58 +118,52 @@ while switch:
                 user_input_nickles = input("How many nickles?: ")
                 user_input_pennies = input("How many pennies?: ")
 
-                total_money_input = (int(user_input_quarters) * 0.25) + (int(user_input_dimes) * 0.1) + (
-                        int(user_input_nickles) + 0.05) + (int(user_input_pennies) * 0.01)
+                total_money_input = (
+                    int(user_input_quarters) * 0.25 +
+                    int(user_input_dimes) * 0.1 +
+                    int(user_input_nickles) * 0.05 +
+                    int(user_input_pennies) * 0.01
+                )
 
                 if total_money_input < cost:
-                    # Finance
-                    print(
-                        f"You input ${round(total_money_input, 2)}. There is a deficit of ${round(cost - total_money_input, 2)}. Here is the money your money back ${round(total_money_input, 2)} - Please input at least ${round(cost, 2)}.")
+                    print(f"You input ${round(total_money_input, 2)}. "
+                          f"There is a deficit of ${round(cost - total_money_input, 2)}. "
+                          f"Here is your money back.")
 
-                elif cost == total_money_input:
-                    # Finance
+                elif total_money_input == cost:
                     money += total_money_input
-                    print(f"Thank you for inputting the exact amount! Enjoy your drink!")
-                    # Resource depletion for making the drink
+                    print("Thank you for inputting the exact amount! Enjoy your drink!")
                     resources["water"] -= water
                     resources["coffee"] -= coffee
                     resources["milk"] -= milk
 
-
                 elif total_money_input > cost:
-                    # Finance
                     change = total_money_input - cost
                     money += cost
-                    print(f"Thank you for your order! You entered: ${round(total_money_input,2)}. Here is your change: ${round(change, 2)}! Enjoy your drink!")
-                    # Resource depletion for making the drink
+                    print(f"Thank you for your order! You entered: ${round(total_money_input,2)}. "
+                          f"Here is your change: ${round(change, 2)}! Enjoy your drink!")
                     resources["water"] -= water
                     resources["coffee"] -= coffee
                     resources["milk"] -= milk
             else:
-                print(f"Not enough resources to make this drink: {resources}")
-
-                if resources["water"] <= water:
+                print("Not enough resources to make this drink.")
+                if resources["water"] < water:
                     print("There is not enough water.")
-
-                elif resources["coffee"] <= coffee:
+                elif resources["coffee"] < coffee:
                     print("There is not enough coffee.")
-
-                elif resources["milk"] <= milk:
+                elif resources["milk"] < milk:
                     print("There is not enough milk.")
         else:
-            print(f"Not enough resources to make this drink: {resources}")
+            print("Not enough resources to make this drink.")
 
-
-
+    # CAPPUCCINO LOGIC
     elif user_input == "cappuccino":
         if resources["water"] > 0 and resources["coffee"] > 0 and resources["milk"] > 0:
-            # Recipe
             water = 250
             coffee = 24
             milk = 100
 
             if resources["water"] >= water and resources["coffee"] >= coffee and resources["milk"] >= milk:
-
                 print("That will be $3.00. Please insert coins.")
                 cost = 3.0
 
@@ -174,54 +172,48 @@ while switch:
                 user_input_nickles = input("How many nickles?: ")
                 user_input_pennies = input("How many pennies?: ")
 
-                total_money_input = (int(user_input_quarters) * 0.25) + (int(user_input_dimes) * 0.1) + (
-                        int(user_input_nickles) + 0.05) + (int(user_input_pennies) * 0.01)
+                total_money_input = (
+                    int(user_input_quarters) * 0.25 +
+                    int(user_input_dimes) * 0.1 +
+                    int(user_input_nickles) * 0.05 +
+                    int(user_input_pennies) * 0.01
+                )
 
                 if total_money_input < cost:
-                    # Finance
-                    print(
-                        f"You input ${round(total_money_input, 2)}. There is a deficit of ${round(cost - total_money_input, 2)}. Here is the money your money back ${round(total_money_input, 2)} - Please input at least ${round(cost, 2)}.")
+                    print(f"You input ${round(total_money_input, 2)}. "
+                          f"There is a deficit of ${round(cost - total_money_input, 2)}. "
+                          f"Here is your money back.")
 
-                elif cost == total_money_input:
-                    # Finance
+                elif total_money_input == cost:
                     money += total_money_input
-                    print(f"Thank you for inputting the exact amount! Enjoy your drink!")
-                    # Resource depletion for making the drink
+                    print("Thank you for inputting the exact amount! Enjoy your drink!")
                     resources["water"] -= water
                     resources["coffee"] -= coffee
                     resources["milk"] -= milk
 
-
                 elif total_money_input > cost:
-                    # Finance
                     change = total_money_input - cost
                     money += cost
-                    print(f"Thank you for your order! You entered: ${round(total_money_input,2)}. Here is your change: ${round(change, 2)}! Enjoy your drink!")
-                    # Resource depletion for making the drink
+                    print(f"Thank you for your order! You entered: ${round(total_money_input,2)}. "
+                          f"Here is your change: ${round(change, 2)}! Enjoy your drink!")
                     resources["water"] -= water
                     resources["coffee"] -= coffee
                     resources["milk"] -= milk
             else:
-                print(f"Not enough resources to make this drink: {resources}")
-
-                if resources["water"] <= water:
+                print("Not enough resources to make this drink.")
+                if resources["water"] < water:
                     print("There is not enough water.")
-
-                elif resources["coffee"] <= coffee:
+                elif resources["coffee"] < coffee:
                     print("There is not enough coffee.")
-
-                elif resources["milk"] <= milk:
+                elif resources["milk"] < milk:
                     print("There is not enough milk.")
         else:
-            print(f"Not enough resources to make this drink: {resources}")
+            print("Not enough resources to make this drink.")
 
-    #Report
+    # REPORT LOGIC
     elif user_input == "report":
-        print("Water: " + str(resources["water"]) +"ml")
+        # Show current status of all resources and money
+        print("Water: " + str(resources["water"]) + "ml")
         print("Milk: " + str(resources["milk"]) + "ml")
         print("Coffee: " + str(resources["coffee"]) + "g")
-        print("Money: " + "$" + str(money))
-
-
-
-
+        print("Money: $" + str(money))
