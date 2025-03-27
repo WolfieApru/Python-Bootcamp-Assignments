@@ -215,7 +215,7 @@ while switch:
         else:
             print(f"Not enough resources to make this drink: {resources}")
 
-
+    #Report
     elif user_input == "report":
         print("Water: " + str(resources["water"]) +"ml")
         print("Milk: " + str(resources["milk"]) + "ml")
