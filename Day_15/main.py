@@ -41,7 +41,7 @@ switch = True
 
 # Main loop to keep asking users for input
 while switch:
-    user_input = input("What would you like? (espresso/latte/cappuccino): ")
+    user_input = input("What would you like? (espresso/latte/cappuccino) ☕ : ")
 
     # ESPRESSO LOGIC
     if user_input == "espresso":
