@@ -25,19 +25,38 @@
 
 from data import question_data
 from question_model import Question
+from quiz_brain import QuizBrain
 
 question_bank = []
 
-for i in range(len(question_data)):
-    # print(i)
-    # print(question_data[i])
-    text = question_data[i]["text"]
-    ans = question_data[i]["answer"]
-    # print(text,ans)
+# for i in range(len(question_data)):
+#     # print(i)
+#     # print(question_data[i])
+#     text = question_data[i]["text"]
+#     ans = question_data[i]["answer"]
+#     # print(text,ans)
+#     question_object = Question(text,ans)
+#     question_bank.append(question_object)
 
-    question_bank.append(Question(text,ans))
+for i in question_data:
+    question = i["text"]
+    answer = i["answer"]
+    question_object = Question(question,answer)
+    question_bank.append(question_object)
 
-print(question_bank)
+quiz = QuizBrain(question_bank)
+#
+# switch = True
+#
+# if switch:
+while quiz.still_has_questions():
+    quiz.next_question()
 
-switch = True
+
+print("You've completed the quiz!")
+print(f"Your final score was: {quiz.score}/{quiz.question_number}")
+
+
+
+
 
